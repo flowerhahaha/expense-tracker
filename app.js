@@ -28,9 +28,8 @@ app.use(session({
   }
 }))
 
-app.get('/', (req, res) => {
-  res.render('index')
-})
+// middleware: routes
+app.use(routes)
 
 // start the server 
 app.listen(3000, () => {

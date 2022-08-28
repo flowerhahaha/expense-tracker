@@ -1,1 +1,91 @@
-<h1>home</h1>
+<div class="container my-5 p-4 rounded">
+  <form action="/search" method="GET" class="row my-2">
+    <!-- category options-->
+    <div class="col-4">
+      <select name="category" id="select-category" class="form-control" aria-label="select by category" onchange="form.submit()">
+        <option value="All">所有類別</option>
+        <option value="家居物業">家居物業</option>
+        <option value="交通出行">交通出行</option>
+        <option value="休閒娛樂">休閒娛樂</option>
+        <option value="餐飲食品">餐飲食品</option>
+        <option value="其他">其他</option>
+      </select>
+    </div>
+    <!-- year options-->
+    <div class="col-4">
+      <select name="year" id="select-year" class="form-control" aria-label="select by year" onchange="form.submit()">
+        <option value="2022">2022 年</option>
+        <option value="2021">2021 年</option>
+      </select>
+    </div>
+    <!-- month options-->
+    <div class="col-4">
+      <select name="month" id="select-month" class="form-control" aria-label="select by month" onchange="form.submit()">
+        <option value="All">所有月份</option>
+        <option value="1">1 月</option>
+        <option value="2">2 月</option>
+        <option value="3">3 月</option>
+        <option value="4">4 月</option>
+        <option value="5">5 月</option>
+        <option value="6">6 月</option>
+        <option value="7">7 月</option>
+        <option value="8">8 月</option>
+        <option value="9">9 月</option>
+        <option value="10">10 月</option>
+        <option value="11">11 月</option>
+        <option value="12">12 月</option>
+      </select>
+    </div>
+  </form>
+  {{!-- total amount --}}
+  <div class="my-2 fs-5 text-light text-end">Total Amount : <span class="fs-1 text-danger">20060</span></div>
+  {{!-- records table --}}
+  <table class="table table-hover">
+    <tbody class="">
+      <tr class="align-items-center table-dark">
+        <td class="col-2 align-middle text-center fs-4 text-success"><i class="fa-solid fa-house"></i></td>
+        <td class="col-6 align-middle">
+          <div class="d-flex flex-row justify-content-between align-items-center">
+            <div>
+              <div>午餐</div>
+              <div>2022/08/28</div>
+            </div>
+            <div class="fs-5 me-2">60</div>
+          </div>
+        </td>
+        <td class="col-2 align-middle text-end">
+          <a href="/records/{{id}}/edit">
+            <button type="button" class="btn btn-outline-primary mx-0">Edit</button>
+          </a>
+        </td>
+        <td class="col-2 align-middle">
+          <form action="/records/{{id}}?_method=DELETE" method="post">
+            <button class="btn btn-outline-danger mx-0" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      <tr class="align-items-center table-dark">
+        <td class="col-2 align-middle text-center fs-4 text-success"><i class="fa-solid fa-house"></i></td>
+        <td class="col-6 align-middle">
+          <div class="d-flex flex-row justify-content-between align-items-center">
+            <div>
+              <div>租金</div>
+              <div>2022/08/28</div>
+            </div>
+            <div class="fs-5 ms-2">20000</div>
+          </div>
+        </td>
+        <td class="col-2 align-middle text-end">
+          <a href="/records/{{id}}/edit">
+            <button type="button" class="btn btn-outline-primary mx-0">Edit</button>
+          </a>
+        </td>
+        <td class="col-2 align-middle">
+          <form action="/records/{{id}}?_method=DELETE" method="post">
+            <button class="btn btn-outline-danger mx-0" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
