@@ -7,6 +7,7 @@ const session = require('express-session')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override') 
 const routes = require('./routes')
+require('./config/mongoose')
 const app = express()
 
 // template engine: express-handlebars
