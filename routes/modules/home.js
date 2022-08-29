@@ -6,7 +6,7 @@ const categoryList = require('../../models/seeds/categoryList.json')
 const monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 // get homepage
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   Record.find()
     .populate('categoryId')
     .sort('-date')
@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
       })
       res.render('index', { categoryList, recordList, yearList, monthList, totalAmount })
     })
+    .catch(e => next(e))
 })
 
 module.exports = router
