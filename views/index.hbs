@@ -1,5 +1,5 @@
 <div class="container my-5 p-4 rounded">
-  <form action="/search" method="GET" class="row my-2">
+  <form action="/search" method="GET" class="row m-2">
     <!-- category options-->
     <div class="col-4">
       <select name="category" id="select-category" class="form-control" aria-label="select by category" onchange="form.submit()">
@@ -29,14 +29,14 @@
     </div>
   </form>
   {{!-- total amount --}}
-  <div class="my-2 fs-5 text-light text-end">Total Amount : <span class="fs-1 text-danger">{{totalAmount}}</span></div>
+  <div class="my-2 me-4 fs-5 text-active text-end">Total Amount : <span class="fs-1 text-danger">{{totalAmount}}</span></div>
   {{!-- records table --}}
   <table class="table table-hover">
     <tbody>
       {{#each recordList}}
-      <tr class="align-items-center table-dark">
-        <td class="col-2 align-middle text-center fs-4 text-success"><i class="{{this.categoryId.icon}}"></i></td>
-        <td class="col-6 align-middle">
+      <tr class="align-items-center">
+        <td class="col-1 align-middle text-center fs-4 text-info"><i class="{{this.categoryId.icon}}"></i></td>
+        <td class="col-7 align-middle">
           <div class="d-flex flex-row justify-content-between align-items-center">
             <div>
               <div>{{this.name}}</div>
@@ -45,18 +45,18 @@
             <div class="fs-5 me-2">{{this.amount}}</div>
           </div>
         </td>
-        <td class="col-2 align-middle text-end">
+        <td class="col-1 align-middle text-end">
           <a href="/records/{{this._id}}/edit">
-            <button type="button" class="btn btn-outline-primary mx-0">Edit</button>
+            <button type="button" class="btn text-primary fs-5"><i class="fa-solid fa-pen-to-square"></i></button>
           </a>
         </td>
-        <td class="col-2 align-middle">
+        <td class="col-1 align-middle">
           <form action="/records/{{this._id}}?_method=DELETE" method="post">
-            <button class="btn btn-outline-danger mx-0" type="submit">Delete</button>
+            <button class="btn text-danger fs-5" type="submit"><i class="fa-solid fa-trash-can"></i></button>
           </form>
         </td>
       </tr>
       {{/each}}
     </tbody>
   </table>
-</div>
+</div> 
