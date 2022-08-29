@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const home = require('./modules/home')
+const users = require('./modules/users')
 
+router.use('/users', users)
 router.use('/', home)
 
 // get 404 error page 
