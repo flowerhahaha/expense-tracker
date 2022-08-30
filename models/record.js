@@ -5,7 +5,8 @@ const recordSchema = new Schema({
   name: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    maxLength: 100
   },
   date: {
     type: Date,
