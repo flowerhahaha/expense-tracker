@@ -8,12 +8,13 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const passport = require('./config/passport') 
+const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const routes = require('./routes')
 require('./config/mongoose')
 const app = express()
 
 // template engine: express-handlebars
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs', helpers: handlebarsHelpers }))
 app.set('view engine', 'hbs')
 
 // middleware: static files, body-parser, method-override

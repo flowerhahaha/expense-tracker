@@ -1,29 +1,30 @@
-<div class="container my-5 p-4 rounded">
+<div class="container my-3 p-4 rounded">
+  <small id="warning-text" class="text-danger d-flex justify-content-end me-4" style="visibility:hidden;">* 請先選擇年份再選擇月份</small>
   <form action="/search" method="GET" class="row m-2">
     <!-- category options-->
     <div class="col-4">
       <select name="category" id="select-category" class="form-control" aria-label="select by category" onchange="form.submit()">
-        <option value="All">所有類別</option>
+        <option value="All" {{#ifEqual 'All' category}}selected{{/ifEqual}}>所有類別</option>
         {{#each categoryList}}
-        <option value="{{this.name}}">{{this.name}}</option>
+        <option value="{{this.name}}" {{#ifEqual this.name ../category}}selected{{/ifEqual}}>{{this.name}}</option>
         {{/each}}
       </select>
     </div>
     <!-- year options-->
     <div class="col-4">
       <select name="year" id="select-year" class="form-control" aria-label="select by year" onchange="form.submit()">
-        <option value="All">所有年份</option>
+        <option value="All" {{#ifEqual 'All' year}}selected{{/ifEqual}}>所有年份</option>
         {{#each yearList}}
-        <option value="{{this}}">{{this}} 年</option>
+        <option value="{{this}}" {{#ifEqual this ../year}}selected{{/ifEqual}}>{{this}} 年</option>
         {{/each}}
       </select>
     </div>
     <!-- month options-->
     <div class="col-4">
       <select name="month" id="select-month" class="form-control" aria-label="select by month" onchange="form.submit()">
-        <option value="All">所有月份</option>
+        <option value="All" {{#ifEqual 'All' month}}selected{{/ifEqual}}>所有月份</option>
         {{#each monthList}}
-        <option value="{{this}}">{{this}} 月</option>
+        <option value="{{this}}" {{#ifEqual this ../month}}selected{{/ifEqual}}>{{this}} 月</option>
         {{/each}}
       </select>
     </div>
@@ -63,3 +64,13 @@
     </tbody>
   </table>
 </div> 
+
+<script>
+  // user can't select a month before selecting a year 
+  const monthSelect = document.querySelector('#select-month')
+  if (document.querySelector('#select-year').value === 'All') {
+    monthSelect.value = 'All'
+    monthSelect.disabled = true
+    document.querySelector('#warning-text').style.visibility = 'visible'
+  }
+</script>
