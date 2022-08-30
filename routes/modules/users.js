@@ -1,3 +1,4 @@
+const passport = require('passport')
 const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
@@ -9,12 +10,18 @@ router.get('/login', (req, res) => {
   res.render('login')
 })
 
+// post login information
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/users/login'
+}))
+
 // get user register page
 router.get('/register', (req, res) => {
   res.render('register')
 })
 
-// post register information to register an account
+// post register information
 router.post('/register', async (req, res, next) => {
    try {
     let { name, email, password, confirmPassword } = req.body

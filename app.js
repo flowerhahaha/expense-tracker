@@ -6,7 +6,8 @@ const express = require('express')
 const session = require('express-session')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
-const flash = require('connect-flash') 
+const flash = require('connect-flash')
+const passport = require('./config/passport') 
 const routes = require('./routes')
 require('./config/mongoose')
 const app = express()
@@ -29,6 +30,10 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }))
+
+// middleware: passport init
+app.use(passport.initialize())
+app.use(passport.session())
 
 // middleware: flash
 app.use(flash())
