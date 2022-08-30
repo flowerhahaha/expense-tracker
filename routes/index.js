@@ -1,9 +1,10 @@
 const router = require('express').Router()
 const home = require('./modules/home')
 const users = require('./modules/users')
+const { authenticator } = require('../middleware/auth')
 
 router.use('/users', users)
-router.use('/', home)
+router.use('/', authenticator, home)
 
 // get 404 error page 
 router.get('*', (req, res) => {

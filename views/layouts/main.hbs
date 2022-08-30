@@ -19,8 +19,9 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="/">
           <i class="fa-solid fa-clipboard-list me-2"></i>
-          Expense Tracker
+          {{#if isAuthenticated}} {{user.name}}'s {{/if}}Expense Tracker
         </a>
+        {{#if isAuthenticated}}
         <div>
           <a href="/records/new">
             <button class="btn btn-primary me-2">New</button>
@@ -29,6 +30,11 @@
             <button class="btn btn-primary">Logout</button>
           </a>
         </div>
+        {{else}}    
+        <a href="/users/login">
+          <button class="btn btn-primary">Login</button>
+        </a>        
+        {{/if}}
       </div>
     </nav>
   </header>
