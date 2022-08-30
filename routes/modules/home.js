@@ -7,18 +7,22 @@ const monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 // get homepage
 router.get('/', (req, res, next) => {
-  Record.find()
+  Record.find({ userId: req.user._id })
     .populate('categoryId')
     .sort('-date')
     .lean()
     .then(recordList => {
       let totalAmount = 0
       const yearList = new Set()
-      recordList.forEach(record => {
-        record.date = dayjs(record.date).format('YYYY-MM-DD')
-        yearList.add(dayjs(record.date).year())
-        totalAmount += record.amount
-      })
+      if (!recordList.length) {
+        res.locals.warning_msg = 'Please create an expense'
+      } else {
+        recordList.forEach(record => {
+          record.date = dayjs(record.date).format('YYYY-MM-DD')
+          yearList.add(dayjs(record.date).year())
+          totalAmount += record.amount
+        })
+      }
       res.render('index', { categoryList, recordList, yearList, monthList, totalAmount })
     })
     .catch(e => next(e))

@@ -31,6 +31,9 @@
   {{!-- total amount --}}
   <div class="my-2 me-4 fs-5 text-active text-end">Total Amount : <span class="fs-1 text-danger">{{totalAmount}}</span></div>
   {{!-- records table --}}
+  <div class="mx-3">
+    {{> message}}
+  </div>
   <table class="table table-hover">
     <tbody>
       {{#each recordList}}
