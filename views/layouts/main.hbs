@@ -22,13 +22,13 @@
           {{#if isAuthenticated}} {{user.name}}'s {{/if}}Expense Tracker
         </a>
         {{#if isAuthenticated}}
-        <div>
+        <div class="d-flex">
           <a href="/records/new">
             <button class="btn btn-primary me-2">Create</button>
           </a>
-          <a href="/users/logout">
+          <form action="/users/logout" method="POST">
             <button class="btn btn-primary">Logout</button>
-          </a>
+          </form>
         </div>
         {{else}}    
         <a href="/users/login">

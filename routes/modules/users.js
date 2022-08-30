@@ -62,4 +62,13 @@ router.post('/register', async (req, res, next) => {
   }
 })
 
+// user logout
+router.post('/logout', (req, res, next) => {
+  req.logout(err => {
+    if (err) return next(err)
+    req.flash('success_msg', 'You have successfully logged out.')
+    res.redirect('/users/login')
+  })
+})
+
 module.exports = router
