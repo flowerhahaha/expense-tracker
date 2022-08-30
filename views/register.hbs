@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <div class="card card-body">
+    <h1 class="text-center mt-3">Register</h1>
+    {{!-- {{> message}} --}}
+    <form action="/users/register" method="POST">
+      <div class="mb-3">
+        <label for="name" class="mb-2"><span class="text-danger">*</span> Name</label>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required value="{{ name }}">
+      </div>
+      <div class="mb-3">
+        <label for="email" class="mb-2"><span class="text-danger">*</span> Email</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required value="{{ email }}">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="mb-2"><span class="text-danger">*</span> Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password" required value="{{ password }}">
+        <small id="passwordHelpBlock" class="form-text text-muted">
+          Your password must be 8-20 characters long, contain letters and numbers.
+        </small>
+      </div>
+      <div class="mb-3">
+        <label for="confirmPassword" class="mb-2"><span class="text-danger">*</span> Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" required value="{{ confirmPassword }}">
+      </div>
+      <div>
+        <button type="submit" class="btn btn-outline-primary mt-2 me-2">Register</button>
+        <a href="/auth/facebook" class="btn btn-outline-info mt-2 me-2">
+          Login with Facebook 
+        </a>
+        <a href="/auth/google" class="btn btn-outline-danger mt-2">
+          Login with Google
+        </a>
+      </div>
+    </form>
+    <p class="mt-4">
+      Have An Account? <a href="/users/login">Login</a>
+    </p>
+  </div>
+</div>
