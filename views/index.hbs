@@ -35,7 +35,7 @@
   <div class="mx-3">
     {{> message}}
   </div>
-  <table class="table table-hover">
+  <table class="table table-hover" id="table-records">
     <tbody>
       {{#each recordList}}
       <tr class="align-items-center">
@@ -55,8 +55,8 @@
           </a>
         </td>
         <td class="col-1 align-middle">
-          <form action="/records/{{this._id}}?_method=DELETE" method="post">
-            <button class="btn text-danger fs-5" type="submit"><i class="fa-solid fa-trash-can"></i></button>
+          <form action="/records/{{this._id}}?_method=DELETE" method="post" class="form-delete form-{{ this._id }}">
+            <button class="btn text-danger fs-5 btn-delete" type="submit" data-id="{{ this._id }}"><i class="fa-solid fa-trash-can btn-delete" data-id="{{ this._id }}"></i></button>
           </form>
         </td>
       </tr>
@@ -65,12 +65,4 @@
   </table>
 </div> 
 
-<script>
-  // user can't select a month before selecting a year 
-  const monthSelect = document.querySelector('#select-month')
-  if (document.querySelector('#select-year').value === 'All') {
-    monthSelect.value = 'All'
-    monthSelect.disabled = true
-    document.querySelector('#warning-text').style.visibility = 'visible'
-  }
-</script>
+<script src="/scripts/index.js"></script>

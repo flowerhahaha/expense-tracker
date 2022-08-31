@@ -7,11 +7,11 @@ function setDateDefaultValue () {
 
 // add 'back to homepage' alert
 const backBtn = document.querySelector('.btn-back')
-backBtn.addEventListener("click", e => {
+backBtn.addEventListener('click', e => {
   e.preventDefault()
   swal({
-    title: "Back to Homepage?",
-    icon: "warning",
+    title: 'Back to Homepage?',
+    icon: 'warning',
     buttons: true,
     dangerMode: true
   }).then(check => {

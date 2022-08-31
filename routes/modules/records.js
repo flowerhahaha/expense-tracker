@@ -64,12 +64,22 @@ router.put('/:id', async (req, res, next) => {
     }
     // user can only edit their own record
     const categoryData = await Category.findOne({ name: category })
-    const record = await Record.findOneAndUpdate({_id, userId}, { name, date, amount, categoryId: categoryData?._id })
-    if (!record) {
-      req.flash('warning_msg', "Record doesn't exist!.")
-      return res.redirect('/')
-    }
+    await Record.findOneAndUpdate({_id, userId}, { name, date, amount, categoryId: categoryData?._id })
     req.flash('success_msg', 'Your expense was edited.')
+    res.redirect('/')
+  } catch (e) {
+    next(e)
+  }
+})
+
+// delete a record
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const _id = req.params.id
+    const userId = req.user._id
+    // user can only delete their own record
+    await Record.findByIdAndDelete({ _id, userId })
+    req.flash('success_msg', 'Your expense was deleted.')
     res.redirect('/')
   } catch (e) {
     next(e)
