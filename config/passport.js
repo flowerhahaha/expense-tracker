@@ -58,11 +58,13 @@ passport.serializeUser((user, done) => {
 })
 
 // store user data in req object if the user already logged in
-passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .lean()
-    .then(user => done(null, user))
-    .catch(err => done(err, null))
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id).lean()
+    done(null, user)
+  } catch (e) {
+    done(err, null)
+  }
 })
 
 // callback function for google and facebook login strategy

@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const dayjs = require('dayjs')
 const Record = require('../../models/record')
-const Category = require('../../models/category')
 const categoryList = require('../../models/seeds/categoryList.json')
 const { createSelectedCategoryIdList, createDateOption, yearList, monthList } = require('../../helpers/options-helpers')
 
