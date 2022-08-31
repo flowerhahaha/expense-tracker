@@ -4,7 +4,6 @@ const Record = require('../../models/record')
 const Category = require('../../models/category')
 const categoryList = require('../../models/seeds/categoryList.json')
 const { createSelectedCategoryIdList, createDateOption, yearList, monthList } = require('../../helpers/options-helpers')
-const currentYear = dayjs().year()
 
 // get search result
 router.get('/', async (req, res, next) => {
@@ -12,7 +11,7 @@ router.get('/', async (req, res, next) => {
     let { category, year, month } = req.query
     // get search options
     const categoryIdList = await createSelectedCategoryIdList(category)
-    const dateOption = createDateOption(year, month, currentYear)
+    const dateOption = createDateOption(year, month)
     const recordList = await Record
       .find({ 
         userId: req.user._id,

@@ -13,10 +13,10 @@ async function createSelectedCategoryIdList (category) {
   return categoryIdList
 }
 
-function createDateOption (year, month, currentYear) {
-  if (!month || (year === 'All' && month !== 'All')) month = 'All'
+function createDateOption (year, month) {
+  if (isNaN(month) || month < 1 || month > 12 || year === 'All') month = 'All'
   const minYear = year === 'All' ? 2020 : year
-  const maxYear = year === 'All' ? currentYear : year
+  const maxYear = year === 'All' ? 2100 : year
   const minMonth = month === 'All' ? 1 : month
   const maxMonth = month === 'All' ? 12 : month
   const dateOption = { $gte: `${minYear}-${minMonth}-01`, $lte: `${maxYear}-${maxMonth}-31` }
@@ -25,7 +25,7 @@ function createDateOption (year, month, currentYear) {
 
 function createYearList () {
   const yearList = [2022, 2021, 2020]
-  const today = new Date(Date.now())
+  const today = new Date()
   const currentYear = today.getFullYear()
   for (let i = currentYear; i > 2022; i--) {
     yearList.unshift(i)
