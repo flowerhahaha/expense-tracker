@@ -1,9 +1,11 @@
 const router = require('express').Router()
 const passport = require('../../config/passport')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 const User = require('../../models/user')
 const JWT_SECRET = process.env.JWT_SECRET
-const { sendResentPasswordEmail } = require('../../helpers/email-helpers')
+const { sendResetPasswordEmail } = require('../../helpers/email-helpers')
+const { passwordValidator } = require('../../helpers/validation-helpers')
 
 router.get('/google', passport.authenticate('google', {
   scope: ['email', 'profile']
@@ -47,7 +49,7 @@ router.post('/forgot-password', async (req, res, next) => {
     const token = jwt.sign(payload, secret, { expiresIn: '10m' })
     const link = `http://${req.headers.host}/auth/reset-password/${user._id}/${token}`
     // sent the link to the email
-    await sendResentPasswordEmail(email, link)
+    await sendResetPasswordEmail(email, link)
     res.locals.success_msg = 'Password reset link has been sent to your email.'
     res.render('forgot-password', { email })
   } catch (error) {
@@ -66,6 +68,36 @@ router.get('/reset-password/:id/:token', async (req, res, next) => {
     const secret = JWT_SECRET + user.password
     jwt.verify(token, secret)
     res.render('reset-password', { id, token })
+  } catch (e) {
+    next(e)
+  }
+})
+
+// reset password
+router.post('/reset-password/:id/:token', async (req, res, next) => {
+  try {
+    const { id, token } = req.params
+    let { password, confirmPassword } = req.body
+    // check if the user id exists
+    const user = await User.findById(id)
+    if (!user) throw new Error('invalid id')
+    // check if the token is valid
+    const secret = JWT_SECRET + user.password
+    jwt.verify(token, secret)
+    // check if the password is valid
+    const errors = []
+    if (!password || !confirmPassword) {
+      errors.push({ message: 'All the fields are required.' })
+    }
+    passwordValidator(password, confirmPassword, errors)
+    if (errors.length) {
+      return res.render('reset-password', { errors, password, confirmPassword, id, token })
+    }
+    // update password
+    await user.update({ password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null) })
+    req.flash('success_msg', 'Password reset! Please login to your account.')
+    req.flash('email', user.email)
+    res.redirect('/users/login')
   } catch (e) {
     next(e)
   }

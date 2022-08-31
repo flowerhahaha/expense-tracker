@@ -1,7 +1,7 @@
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-function sendResentPasswordEmail (clientEmail, link) {
+function sendResetPasswordEmail (clientEmail, link) {
   return new Promise((resolve, reject) => {
     const msg = {
       to: clientEmail,
@@ -18,5 +18,5 @@ function sendResentPasswordEmail (clientEmail, link) {
 }
 
 module.exports = {
-  sendResentPasswordEmail
+  sendResetPasswordEmail
 }
