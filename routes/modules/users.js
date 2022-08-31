@@ -1,8 +1,8 @@
 const passport = require('passport')
 const router = require('express').Router()
 const bcrypt = require('bcryptjs')
-const validator = require('validator')
 const User = require('../../models/user')
+const { emailValidator, passwordValidator } = require('../../helpers/validation-helpers')
 
 // get user login page
 router.get('/login', (req, res) => {
@@ -30,19 +30,8 @@ router.post('/register', async (req, res, next) => {
     if (!name.trim() || !email.trim() || !password || !confirmPassword) {
       errors.push({ message: 'All the fields are required.' })
     }
-    if (!validator.isEmail(email)) {
-      errors.push({ message: 'Email address is invalid.' })
-    }
-    const passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[^]{8,20}$/
-    if (!passwordReg.test(password)) {
-      errors.push({ message: 'The password must be 8-20 characters long, contain letters and numbers.' })
-      password = ''
-      confirmPassword = ''
-    }
-    if (password !== confirmPassword) {
-      errors.push({ message: 'The password confirmation does not match.' })
-      confirmPassword = ''
-    }
+    emailValidator(email, errors)
+    passwordValidator(password, confirmPassword, errors)
     if (errors.length) {
       return res.render('register', { errors, name, email, password, confirmPassword })
     }
