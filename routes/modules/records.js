@@ -13,7 +13,7 @@ router.post('/', async (req, res, next) => {
   try {
     const { name, date, category, amount } = req.body
     // check the record data
-    if (!name.trim() || !date?.trim() || !category?.trim() || !amount?.trim()) {
+    if (!name.trim() || !amount.trim()) {
       res.locals.warning_msg = 'All the fields are required.'
       return res.render('new', { name, date, category, amount, categoryList })
     }
@@ -38,6 +38,7 @@ router.get('/:id/edit', async (req, res, next) => {
   try {
     const _id = req.params.id
     const userId = req.user._id
+    // user can only access their own record
     const record = await Record.findOne({_id, userId}).populate('categoryId').lean()
     if (!record) {
       req.flash('warning_msg', "Record doesn't exist!.")
@@ -45,6 +46,31 @@ router.get('/:id/edit', async (req, res, next) => {
     }
     record.date = record.date.toISOString().slice(0, 10)
     res.render('edit', { record, categoryList })
+  } catch (e) {
+    next(e)
+  }
+})
+
+// edit a record
+router.put('/:id', async (req, res, next) => {
+  try {
+    const _id = req.params.id
+    const userId = req.user._id
+    const { name, date, category, amount } = req.body
+    // check the record data
+    if (!name.trim() || !amount.trim()) {
+      req.flash('warning_msg', "All the fields are required.")
+      return res.redirect(`/records/${_id}/edit`)
+    }
+    // user can only edit their own record
+    const categoryData = await Category.findOne({ name: category })
+    const record = await Record.findOneAndUpdate({_id, userId}, { name, date, amount, categoryId: categoryData?._id })
+    if (!record) {
+      req.flash('warning_msg', "Record doesn't exist!.")
+      return res.redirect('/')
+    }
+    req.flash('success_msg', 'Your expense was edited.')
+    res.redirect('/')
   } catch (e) {
     next(e)
   }
