@@ -1,26 +1,22 @@
-const Category = require('../models/category')
-
-async function createSelectedCategoryIdList (category) {
-  const categoryIdList = []
-  categoryList = await Category.find().lean()
-  if (category === 'All') {
-    categoryList.forEach(data => categoryIdList.push(data._id))
-  } else {
-    categoryList.forEach(data => {
-      if (data.name === category) categoryIdList.push(data._id)
-    })
-  }
-  return categoryIdList
-}
-
-function createDateOption (year, month) {
-  if (isNaN(month) || month < 1 || month > 12 || year === 'All') month = 'All'
-  const minYear = year === 'All' ? 2020 : year
-  const maxYear = year === 'All' ? 2100 : year
+function createSearchOptions (category, year, month, userId, categoryId) {
+  if (isNaN(month) || year === 'All') month = 'All'
   const minMonth = month === 'All' ? 1 : month
   const maxMonth = month === 'All' ? 12 : month
-  const dateOption = { $gte: `${minYear}-${minMonth}-01`, $lte: `${maxYear}-${maxMonth}-31` }
-  return dateOption 
+  const dateOption = { $gte: `${year}-${minMonth}-01`, $lte: `${year}-${maxMonth}-31` }
+  // select nothing
+  if (category === 'All' && year === 'All') {
+    return { userId }
+  }
+  // only select category
+  if (year === 'All') {
+    return { userId, categoryId }
+  }
+  // only select year
+  if (category === 'All') {
+    return { userId, date: dateOption }
+  }
+  // select both category and year
+  return { userId, categoryId, date: dateOption }
 }
 
 function createYearList () {
@@ -34,8 +30,7 @@ function createYearList () {
 }
 
 module.exports = {
-  createSelectedCategoryIdList,
-  createDateOption,
+  createSearchOptions,
   yearList: createYearList(),
   monthList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 }

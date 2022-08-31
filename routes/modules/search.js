@@ -1,22 +1,21 @@
 const router = require('express').Router()
 const dayjs = require('dayjs')
 const Record = require('../../models/record')
+const Category = require('../../models/category')
 const categoryList = require('../../models/seeds/categoryList.json')
-const { createSelectedCategoryIdList, createDateOption, yearList, monthList } = require('../../helpers/options-helpers')
+const { createSearchOptions, yearList, monthList } = require('../../helpers/options-helpers')
 
 // get search result
 router.get('/', async (req, res, next) => {
   try {
-    let { category, year, month } = req.query
+    const { category, year, month } = req.query
+    const userId = req.user._id
+    const categoryData = await Category.findOne({ name: category })
+    const categoryId = categoryData?._id
     // get search options
-    const categoryIdList = await createSelectedCategoryIdList(category)
-    const dateOption = createDateOption(year, month)
+    const searchOptions = createSearchOptions(category, year, month, userId, categoryId)
     const recordList = await Record
-      .find({ 
-        userId: req.user._id,
-        categoryId: { $in: categoryIdList },
-        date: dateOption
-      })
+      .find(searchOptions)
       .populate('categoryId')
       .sort('-date')
       .lean()
