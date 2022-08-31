@@ -33,4 +33,21 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+// get edit record page
+router.get('/:id/edit', async (req, res, next) => {
+  try {
+    const _id = req.params.id
+    const userId = req.user._id
+    const record = await Record.findOne({_id, userId}).populate('categoryId').lean()
+    if (!record) {
+      req.flash('warning_msg', "Record doesn't exist!.")
+      return res.redirect('/')
+    }
+    record.date = record.date.toISOString().slice(0, 10)
+    res.render('edit', { record, categoryList })
+  } catch (e) {
+    next(e)
+  }
+})
+
 module.exports = router

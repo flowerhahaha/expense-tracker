@@ -3,41 +3,12 @@
     <h1 class="text-center mt-3">Create Expense</h1> 
     {{> message}}
     <form action="/records" method="POST">
-      {{!-- name --}}
-      <div class="mb-3">
-        <label for="name" class="mb-2"><span class="text-danger">*</span> Name</label>
-        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Expense Name" value="{{name}}" maxlength="100" required >
-        <small id="passwordHelpBlock" class="form-text text-muted">
-          Maximum 100 characters long.
-        </small>
-      </div>
-      {{!-- date --}}
-      <div class="mb-3">
-        <label for="date" class="mb-2"><span class="text-danger">*</span> Date</label>
-        <input type="date" id="date" name="date" class="form-control" value="{{date}}" min="2020-01-01" required>
-      </div>
-      {{!-- category --}}
-      <div class="mb-3">
-        <label for="category" class="mb-2"><span class="text-danger">*</span> Category</label>
-        <select name="category" id="select-category" class="form-control" aria-label="select by category">
-          <option selected disabled hidden>Select Category</option>
-          {{#each categoryList}}
-          <option value="{{this.name}}">{{this.name}}</option>
-          {{/each}}
-        </select>
-      </div>
-      {{!-- amount --}}
-      <div class="mb-3">
-        <label for="amount" class="mb-2"><span class="text-danger">*</span> Amount</label>
-        <input type="number" id="amount" name="amount" class="form-control" value="{{amount}}" placeholder="Enter Expense Amount" required>
-      </div>
-      {{!-- buttons --}}
-      <div class="mt-4 mb-2 d-flex justify-content-center">
-        <a href="/" class="btn btn-outline-warning me-2 btn-back">Back</a>
-        <button type="submit" class="btn btn-outline-primary mx-2">Save</button>
-      </div>       
+      {{> record-form}}       
     </form>
   </div>
 </div>
 
 <script src="/scripts/new.js"></script>
+<script>
+  setDateDefaultValue()
+</script>

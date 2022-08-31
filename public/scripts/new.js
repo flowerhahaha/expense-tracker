@@ -1,11 +1,12 @@
-// set date default value 
-const today = new Date()
-const dateToday = today.toISOString().slice(0, 10)
-document.querySelector('#date').value = dateToday
+// set date default value
+function setDateDefaultValue () {
+  const today = new Date()
+  const dateToday = today.toISOString().slice(0, 10)
+  document.querySelector('#date').value = dateToday
+}
 
 // add 'back to homepage' alert
 const backBtn = document.querySelector('.btn-back')
-const saveBtn = document.querySelector('.btn-save')
 backBtn.addEventListener("click", e => {
   e.preventDefault()
   swal({
