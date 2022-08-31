@@ -18,6 +18,17 @@ router.get('*', (req, res) => {
   res.status(404).render('error')
 })
 
+
+// jwt expired error handling
+router.use((err, req, res, next) => {
+  if (err.message === 'jwt expired') {
+    req.flash('warning_msg', 'The reset password link is expired')
+    res.redirect('/auth/forgot-password')
+  } else {
+    next(err)
+  }
+})
+
 // 500 error handling
 router.use((err, req, res, next) => {
   res.locals.warning_msg = 'Sorry! Server is broken. We will fix it soon.'

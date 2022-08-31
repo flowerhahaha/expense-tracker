@@ -24,12 +24,12 @@ router.get('/facebook/callback', passport.authenticate('facebook', {
 }))
 
 // get forgot-password page
-router.get('/forgot-password', (req, res, nex) => {
+router.get('/forgot-password', (req, res, next) => {
   res.render('forgot-password')
 })
 
 // send reset password email
-router.post('/forgot-password', async (req, res, nex) => {
+router.post('/forgot-password', async (req, res, next) => {
   try {
     const { email } = req.body
     // check if the user exists
@@ -45,12 +45,28 @@ router.post('/forgot-password', async (req, res, nex) => {
       id: user._id
     }
     const token = jwt.sign(payload, secret, { expiresIn: '10m' })
-    const link = `http://${req.headers.host}/reset-password/${user._id}/${token}`
+    const link = `http://${req.headers.host}/auth/reset-password/${user._id}/${token}`
     // sent the link to the email
     await sendResentPasswordEmail(email, link)
     res.locals.success_msg = 'Password reset link has been sent to your email.'
     res.render('forgot-password', { email })
   } catch (error) {
+    next(e)
+  }
+})
+
+// get reset-password page
+router.get('/reset-password/:id/:token', async (req, res, next) => {
+  try {
+    const { id, token } = req.params
+    // check if the user id exists
+    const user = await User.findById(id)
+    if (!user) throw new Error('invalid id')
+    // check if the token is valid
+    const secret = JWT_SECRET + user.password
+    jwt.verify(token, secret)
+    res.render('reset-password', { id, token })
+  } catch (e) {
     next(e)
   }
 })
