@@ -13,6 +13,7 @@ const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const routes = require('./routes')
 require('./config/mongoose')
 const app = express()
+const PORT = process.env.PORT || 3000
 
 // template engine: express-handlebars
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs', helpers: handlebarsHelpers }))
@@ -55,6 +56,6 @@ app.use((req, res, next) => {
 app.use(routes)
 
 // start the server 
-app.listen(3000, () => {
-  console.log('App is running on http://localhost:3000')
+app.listen(PORT, () => {
+  console.log(`App is running on http://localhost:${PORT}`)
 })
