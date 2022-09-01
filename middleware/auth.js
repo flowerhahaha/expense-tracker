@@ -4,6 +4,6 @@ module.exports = {
       return next()
     }
     req.flash('warning_msg', 'Please login first!')
-    res.redirect('users/login')
+    res.redirect('/users/login')
   }
 }
