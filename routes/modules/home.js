@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
     const recordList = await Record
       .find({ userId: req.user._id })
       .populate('categoryId')
-      .sort('-date')
+      .sort({ date: '-1', _id: '-1' })
       .lean()
     // calculate total amount and format date
     let totalAmount = 0
