@@ -3,20 +3,16 @@ function createSearchOptions (category, year, month, userId, categoryId) {
   const minMonth = month === 'All' ? 1 : month
   const maxMonth = month === 'All' ? 12 : month
   const dateOption = { $gte: `${year}-${minMonth}-01`, $lte: `${year}-${maxMonth}-31` }
-  // select nothing
-  if (category === 'All' && year === 'All') {
-    return { userId }
+  const searchOptions = { userId }
+  // if select category
+  if (category !== 'All') {
+    searchOptions.categoryId = categoryId
   }
-  // only select category
-  if (year === 'All') {
-    return { userId, categoryId }
+  // if select year
+  if (year !== 'All') {
+    searchOptions.date = dateOption
   }
-  // only select year
-  if (category === 'All') {
-    return { userId, date: dateOption }
-  }
-  // select both category and year
-  return { userId, categoryId, date: dateOption }
+  return searchOptions
 }
 
 function createYearList () {
