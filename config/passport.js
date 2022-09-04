@@ -62,7 +62,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id).lean()
     done(null, user)
-  } catch (e) {
+  } catch (err) {
     done(err, null)
   }
 })

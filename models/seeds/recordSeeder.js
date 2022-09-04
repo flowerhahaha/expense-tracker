@@ -25,7 +25,7 @@ db.once('open', async () => {
       // create user's records
       await Promise.all(recordList.map(async record => {
         const { name, date, amount, category } = record
-        categoryData = categories.find(categoryData => categoryData.name === category)
+        const categoryData = categories.find(categoryData => categoryData.name === category)
         await Record.create({
           name,
           date,
