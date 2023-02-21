@@ -1,4 +1,11 @@
 # Expense Tracker
+It's a [website](https://www.expence-tracker-yen.click/users/login) to track users expences.
+You can login with the accounts below:
+
+| account | password |
+| ------- | -------- |
+| user1   | 12345678 |
+
 ![image](/public/images/S3_A2_02.png)
 ![image](/public/images/S3_A2_01.png)
 
